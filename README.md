@@ -1,5 +1,7 @@
 # Parsetime
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/gophreak/parsetime)](https://goreportcard.com/report/github.com/gophreak/parsetime)
+
 The parsetime package is designed as a helper to get around the obscurity of Go's time parsing. Coming from a PHP
 background I find it easier to implement the standards laid out by PHP so I have created this helper to help when parsing
 or formatting times.
@@ -8,7 +10,7 @@ or formatting times.
 
 Download the package using glide by adding the following into your glide.yaml file
 
-```
+```yml
 import:
 - package: github.com/gophreak/parsetime
   repo: git@github.com:gophreak/parsetime.git
@@ -29,7 +31,7 @@ time in the format requested.
 
 Samples of date can be found below:
 
-```
+```go
 // Days
 'd': Day of month (01, 02, 03, ... 30, 31, etc)
 'j': Day of month with single digit (1, 2, 3, ... 10, 11, etc)
@@ -57,7 +59,7 @@ Samples of date can be found below:
 
 // Timezone
 'e': Timezone name (UTC, GMT, etc)
-'T': Timezzone offset (±07:00)
+'T': Timezone offset (±07:00)
 ```
 
 If you would like to escape reserved characters for use during the formatting, you can wrap it in `[]square brackets] to
@@ -66,24 +68,32 @@ preserve the individual characters. See some examples below:
 ## Format Examples
 
 Assuming a time of 24th July 2017, at 09:35:42
+
 ### Dates
 
 If you want to print out a date in the format of `Year-Month-Date`, then the following would do that:
-```
+
+```go
 fmt.Println(parsetime.Format(t, "Y-m-d"))
 ```
+
 Will print
-```
+
+```go
 "2017-07-24"
 ```
 
 ### Times
+
 If you wanted to print out the time, with `Hour:Minute:Second`, then use the following:
-```
+
+```go
 fmt.Println(parsetime.Format(t, "H:i:s"))
 ```
+
 Will print
-```
+
+```go
 "09:35:42"
 ```
 
@@ -92,11 +102,13 @@ Will print
 If you want to print out a date in the format of `Time: Year-Month-DateTHour:Minute:Second`, then you would need to
 escape the reserved characters. In this instance, it would be simpler to escape in blocks of words:
 
-```
+```go
 fmt.Println(parsetime.Format(t, "[Time: ]Y-m-d[T]H:i:s"))
 ```
+
 Will print
-```
+
+```go
 "Time: 2017-07-24T09:35:42"
 ```
 
@@ -130,37 +142,39 @@ the underlying time parsed.
 
 ## Time manipulation examples
 
-###  GetStartOfDay
+### GetStartOfDay
 
 To get the start of the passed date, ie midnight, you can configure a time.Time object with any time set:
 
-```
+```go
 t := time.Date(2017, 10, 25, 18, 36, 45, 56, time.UTC)
 e := parsetime.GetStartOfDay(t)
 ```
 
 Will set `e` to be equal to:
-```
+
+```go
 e := time.Date(2017, 10, 25, 0, 0, 0, 0, time.UTC)
 ```
 
-###  GetEndOfDay
+### GetEndOfDay
 
 To get the end of the passed date, ie midnight, you can configure a time.Time object with any time set:
 
-```
+```go
 t := time.Date(2017, 10, 25, 18, 36, 45, 56, time.UTC)
 e := parsetime.GetEndOfDay(t)
 ```
 
 Will set `e` to be equal to:
-```
+
+```go
 e := time.Date(2017, 10, 25, 23, 59, 59, 999999999, time.UTC)
 ```
 
 Hence adding 1 nanosecond `ns` to the time e, will give you midnight of the following day.
 
-```
+```go
 m := e.Add(time.Nanosecond)
 m === time.Date(2017, 10, 26, 0, 0, 0, 0, time.UTC)
 ```
@@ -168,13 +182,15 @@ m === time.Date(2017, 10, 26, 0, 0, 0, 0, time.UTC)
 ### InTimeZone
 
 To return the time modified to the timezone, for example Hong Kong, you can use:
-```
+
+```go
 t := time.Date(2017, 9, 25, 18, 36, 45, 56, time.UTC)
 hkTime, tzErr := parsetime.InTimeZone(t, hongkongName)
 ```
 
 Which would be the equivalent of doing:
-```
+
+```go
 hkt, _ := time.LoadLocation("Hongkong")
 t := time.Date(2017, 9, 25, 18, 36, 45, 56, time.UTC)
 hkTime := t.In(hkt)
@@ -183,12 +199,14 @@ hkTime := t.In(hkt)
 ### ParseWithTimeZone
 
 To read a time into Johannesbur's timezone, without changing the parsed time:
-```
+
+```go
 t, _ := parsetime.ParseWithTimeZone("Y-m-d[T]H:i:s", "2017-11-24T08:39:15", southAfrica)
 ```
 
 Should set `t` to the equivalent of:
-```
+
+```go
 saTZ, _ := time.LoadLocation("Africa/Johannesburg")
 t := time.Date(2017, 11, 24, 8, 39, 15, 0, saTZ)
 ```

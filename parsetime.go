@@ -1,6 +1,8 @@
 package parsetime
 
-import "time"
+import (
+	"time"
+)
 
 const (
 	// Escape
