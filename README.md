@@ -8,6 +8,17 @@ or formatting times.
 
 ## Getting started
 
+### Dep
+
+If you are using `dep` as your package manager,
+Run this command:`dep ensure -add github.com/gophreak/parsetime`
+
+### Go get
+
+Run this command: `go get -u github.com/gophreak/parsetime`
+
+### Glide
+
 Download the package using glide by adding the following into your glide.yaml file
 
 ```yml
@@ -185,7 +196,7 @@ To return the time modified to the timezone, for example Hong Kong, you can use:
 
 ```go
 t := time.Date(2017, 9, 25, 18, 36, 45, 56, time.UTC)
-hkTime, tzErr := parsetime.InTimeZone(t, hongkongName)
+hkTime, tzErr := parsetime.InTimeZone(t, "Hongkong")
 ```
 
 Which would be the equivalent of doing:
@@ -198,10 +209,10 @@ hkTime := t.In(hkt)
 
 ### ParseWithTimeZone
 
-To read a time into Johannesbur's timezone, without changing the parsed time:
+To read a time into Johannesburg's timezone, without changing the parsed time:
 
 ```go
-t, _ := parsetime.ParseWithTimeZone("Y-m-d[T]H:i:s", "2017-11-24T08:39:15", southAfrica)
+t, _ := parsetime.ParseWithTimeZone("Y-m-d[T]H:i:s", "2017-11-24T08:39:15", "Africa/Johannesburg")
 ```
 
 Should set `t` to the equivalent of:
