@@ -31,7 +31,7 @@ time in the format requested.
 
 Samples of date can be found below:
 
-```go
+```
 // Days
 'd': Day of month (01, 02, 03, ... 30, 31, etc)
 'j': Day of month with single digit (1, 2, 3, ... 10, 11, etc)
